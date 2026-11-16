@@ -1,0 +1,60 @@
+
+import gamepad
+from cyberpi import *
+import time
+
+console.println('START')
+
+
+def con_move():
+    ly_speed = gamepad.get_joystick('Ly') * 1.2
+    lx_speed = gamepad.get_joystick('Lx') * 1.2
+
+    if ly_speed > 5:
+        mbot2.drive_speed(-ly_speed, ly_speed)
+
+    elif ly_speed < -5:
+        mbot2.drive_speed(-ly_speed, ly_speed)
+
+    elif lx_speed > 5:
+        mbot2.drive_speed(lx_speed, lx_speed)
+
+    elif lx_speed < -5:
+        mbot2.drive_speed(lx_speed, lx_speed)
+
+    else:
+        mbot2.EM_stop()
+
+
+def con_shoot():
+    if gamepad.is_key_pressed('Up'):
+        mbot2.motor_set(150, 'M2')
+        mbot2.motor_set(-150, 'M1')
+
+    elif gamepad.is_key_pressed('Down'):
+        mbot2.motor_set(-150, 'M2')
+        mbot2.motor_set(150, 'M1')
+
+    elif gamepad.is_key_pressed('Left'):
+        mbot2.motor_set(0, 'M2')
+        mbot2.motor_set(0, 'M1')
+
+
+def con_grip():
+    if gamepad.is_key_pressed('N1'):
+        mbot2.servo_add(1, 's2')
+
+    elif gamepad.is_key_pressed('N3'):
+        mbot2.servo_add(-1, 's2')
+
+    if gamepad.is_key_pressed('N2'):
+        mbot2.servo_add(1, 's1')
+
+    elif gamepad.is_key_pressed('N4'):
+        mbot2.servo_add(-1, 's1')
+
+
+while True:
+    con_move()
+    con_shoot()
+    con_grip()
